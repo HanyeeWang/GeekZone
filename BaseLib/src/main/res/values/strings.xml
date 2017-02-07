@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">AndroidLib</string>
+    <string name="update_app_title">应用更新</string>
+    <string name="app_ok">确定</string>
+    <string name="app_cancel">取消</string>
+    <string name="app_ignore">忽略</string>
+    <string name="unkown_version">未知版本</string>
+    <string name="load_failed">点击屏幕，重新加载</string>
+    <string name="loading">请稍后...</string>
+    <string name="no_more">没有更多数据可加载</string>
+
+    <string-array name="month">
+        <item>一月</item>
+        <item>二月</item>
+        <item>三月</item>
+        <item>四月</item>
+        <item>五月</item>
+        <item>六月</item>
+        <item>七月</item>
+        <item>八月</item>
+        <item>九月</item>
+        <item>十月</item>
+        <item>十一月</item>
+        <item>十二月</item>
+    </string-array>
+</resources>

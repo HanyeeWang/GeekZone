@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">@android:color/transparent</color>
+    <color name="white">@android:color/white</color>
+    <color name="blue">#00AEEF</color>
+    <color name="black">#585858</color>
+    <color name="gray">#A3A3A3</color>
+
+    <color name="common_dialog_title_text_color">#585858</color>
+    <color name="common_dialog_content_text_color">#585858</color>
+    <color name="common_dialog_footview_text_color">#585858</color>
+    <color name="common_dialog_footview_line_color">#E7E7E7</color>
+
+    <color name="menu_dialog_text_color">@android:color/white</color>
+    <color name="menu_dialog_item_bg_normal">#00AEEF</color>
+    <color name="menu_dialog_item_bg_unenable">#CECECE</color>
+    <color name="menu_dialog_item_bg_press">#007FAE</color>
+
+    <color name="selector_dialog_bg">#CECECE</color>
+    <color name="selector_dialog_blue">#00AEEF</color>
+    <color name="selector_dialog_text_selector_cur_color">#FF0000F0</color>
+
+    <color name="text_white">@color/white</color>
+    <color name="text_blue">@color/blue</color>
+    <color name="text_black">@color/black</color>
+    <color name="text_gray">@color/gray</color>
+
+    <color name="background_transparent">@color/transparent</color>
+    <color name="background_white">@color/white</color>
+    <color name="background_blue">@color/blue</color>
+    <color name="background_gray">#CECECE</color>
+    <color name="background_light_gray">#EFF3F6</color>
+    <color name="background_loading">#55000000</color>
+
+    <color name="snackbarBlack">#323232</color>
+    <color name="snackbarRed">#f44336</color>
+    <color name="snackbarGreen">#4caf50</color>
+    <color name="snackbarBlue">#2195f3</color>
+    <color name="snackbarOrange">#ffc107</color>
+
+
+    <color name="colorBackground">#EEEEEE</color>
+    <color name="colorCard">@color/white</color>
+    <color name="colorText">#2C2C2C</color>
+
+    <color name="checkboxTint">#9873D9</color>
+    <color name="lineColor">@color/colorBackground</color>
+    <color name="navMenuBg">#e8e8e8</color>
+</resources>

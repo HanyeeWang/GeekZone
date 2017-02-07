@@ -1,0 +1,73 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    compileSdkVersion rootProject.android.compileSdkVersion
+    buildToolsVersion rootProject.android.buildToolsVersion
+
+    publishNonDefault rootProject.android.publishNonDefault
+
+    useLibrary rootProject.ext.dependencies.legacy
+
+    defaultConfig {
+        minSdkVersion rootProject.android.minSdkVersion
+        targetSdkVersion rootProject.android.targetSdkVersion
+        versionCode rootProject.android.versionCode
+        versionName rootProject.android.versionName
+    }
+
+    lintOptions {
+        abortOnError rootProject.android.abortOnLintError
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            buildConfigField "String", "TAG", "\"Hanyee\""
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            buildConfigField "boolean", "UMENG_DEBUG", "true"
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles 'proguard-rules.pro'
+            buildConfigField "String", "TAG", "\"Hanyee\""
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "boolean", "UMENG_DEBUG", "false"
+        }
+    }
+}
+
+dependencies {
+    compile  fileTree(include: ['*.jar'], dir: 'libs')
+    //Local editable library
+    compile  project(':Volley')
+    //UI
+    compile  rootProject.ext.dependencies["design"]
+    compile  rootProject.ext.dependencies["support-v4"]
+    compile  rootProject.ext.dependencies["cardview-v7"]
+    compile  rootProject.ext.dependencies["recyclerview-v7"]
+    compile  rootProject.ext.dependencies["fragmentation"]
+    compile  rootProject.ext.dependencies["kenburnsview"]
+    //Data
+    compile  rootProject.ext.dependencies["gson"]
+    //Network
+    compile  rootProject.ext.dependencies["glide"]
+    compile  rootProject.ext.dependencies["okhttp"]
+    compile  rootProject.ext.dependencies["retrofit"]
+    compile  rootProject.ext.dependencies["converter-gson"]
+    compile  rootProject.ext.dependencies["logging-interceptor"]
+    compile  rootProject.ext.dependencies["glide-okhttp-integration"]
+    //Umeng
+    compile  rootProject.ext.dependencies["umeng-analytics"]
+    //Event
+    compile  rootProject.ext.dependencies["eventbus"]
+    //DI
+    compile  rootProject.ext.dependencies["dagger"]
+    apt      rootProject.ext.dependencies["dagger-compiler"]
+    compile  rootProject.ext.dependencies["butterknife"]
+    apt      rootProject.ext.dependencies["butterknife-compiler"]
+    provided rootProject.ext.dependencies["glassfish-annotation"]
+    //Log
+    compile  rootProject.ext.dependencies["logger"]
+}

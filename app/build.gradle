@@ -1,0 +1,63 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'realm-android'
+
+android {
+    compileSdkVersion rootProject.android.compileSdkVersion
+    buildToolsVersion rootProject.android.buildToolsVersion
+
+    defaultConfig {
+        applicationId rootProject.android.applicationId
+        minSdkVersion rootProject.android.minSdkVersion
+        targetSdkVersion rootProject.android.targetSdkVersion
+        versionCode rootProject.android.versionCode
+        versionName rootProject.android.versionName
+        renderscriptTargetApi rootProject.android.renderscriptTargetApi
+        renderscriptSupportModeEnabled rootProject.android.renderscriptSupportModeEnabled
+    }
+
+    sourceSets {
+        packagingOptions {
+            pickFirst 'META-INF/maven/com.squareup.okio/okio/pom.xml'
+            pickFirst 'META-INF/maven/com.squareup.okio/okio/pom.properties'
+        }
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            force rootProject.ext.dependencies['support-annotations']
+        }
+    }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'mips', 'mips64', 'x86', 'x86_64'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile project(':BaseLib')
+    compile project(':Banner')
+    compile project(':Refresh')
+    compile project(':Diagonallayout')
+
+    compile rootProject.ext.dependencies["dagger"]
+    apt     rootProject.ext.dependencies["dagger-compiler"]
+    compile rootProject.ext.dependencies["butterknife"]
+    apt     rootProject.ext.dependencies["butterknife-compiler"]
+
+    debugCompile   rootProject.ext.dependencies["leakcanary"]
+    releaseCompile rootProject.ext.dependencies["leakcanary-no-op"]
+    debugCompile   rootProject.ext.dependencies["blockcanary"]
+    releaseCompile rootProject.ext.dependencies["blockcanary-no-op"]
+}

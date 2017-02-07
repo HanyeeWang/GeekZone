@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2015 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/info">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/zhihu"
+                    android:checkable="true"
+                    android:checked="true"
+                    android:icon="@drawable/nav_zhihu"
+                    android:title="@string/zhihu"/>
+                <item
+                    android:id="@+id/wechat"
+                    android:checkable="true"
+                    android:icon="@drawable/nav_wechat"
+                    android:title="@string/wechat"/>
+                <item
+                    android:id="@+id/gank"
+                    android:checkable="true"
+                    android:icon="@drawable/nav_gank"
+                    android:title="@string/gank"/>
+                <item
+                    android:id="@+id/other"
+                    android:checkable="true"
+                    android:icon="@drawable/nav_news"
+                    android:title="@string/news"/>
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/selection">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/like"
+                    android:checkable="true"
+                    android:icon="@drawable/nav_star"
+                    android:title="@string/like"/>
+                <item
+                    android:id="@+id/settings"
+                    android:checkable="true"
+                    android:icon="@drawable/nav_setting"
+                    android:title="@string/setting"/>
+                <item
+                    android:id="@+id/about"
+                    android:checkable="true"
+                    android:icon="@drawable/nav_about"
+                    android:title="@string/about"/>
+            </group>
+        </menu>
+    </item>
+
+</menu>
