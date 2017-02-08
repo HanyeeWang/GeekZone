@@ -58,7 +58,7 @@ public class AboutFragment extends SuperiorFragment<AboutPresenter> {
                 }
             }
         });
-        Glide.with(GeekZoneApplication.getInstance()).load(R.drawable.hughjackman)
+        Glide.with(GeekZoneApplication.getInstance()).load(R.drawable.avatar)
                 .transform(new CircleTransform(GeekZoneApplication.getInstance()))
                 .into(mAvatar);
         finishLoading();
