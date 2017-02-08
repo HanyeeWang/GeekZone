@@ -1,5 +1,5 @@
 ## GeekZone
-##### This is an information polymerized platform demo app for studying android.
+##### This is an information polymerized platform demo app for studying android. This project should still has some issues to fix, I'll continue to complete them and try to make it more helpful for us studying android.
 ## Main technique points
 ##### 1. architecture : MVP + Dagger2 + Butterknife
 ##### 2. network : Retrofit2.0 + OkHttp + Gson
