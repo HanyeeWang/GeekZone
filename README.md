@@ -5,7 +5,7 @@
 ###### 3. http://www.tianapi.com/
 ###### 4. http://gank.io/api
 ## Main technique points
-##### 1. architecture : MVP + Dagger2 + Butterknsife
+##### 1. architecture : MVP + Dagger2 + Butterknife
 ##### 2. network : Retrofit2.0 + OkHttp + Gson
 ##### 3. imageloader : Glide
 ##### 4. database : Realm
