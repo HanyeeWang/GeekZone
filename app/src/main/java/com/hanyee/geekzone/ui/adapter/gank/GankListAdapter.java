@@ -7,15 +7,17 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.NetworkImageView;
 import com.hanyee.androidlib.base.BaseAdapter;
 import com.hanyee.geekzone.R;
 import com.hanyee.geekzone.model.bean.gank.GankNewsBean;
 import com.hanyee.geekzone.ui.activity.main.ArticleDetailActivity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -32,6 +34,8 @@ import static com.hanyee.geekzone.util.Constants.GANK.WELFARE;
 
 public class GankListAdapter extends BaseAdapter<GankNewsBean> {
 
+    protected Map<String, ImageSize> mImageSizesMap;
+
     @Inject
     public GankListAdapter(Fragment fragment) {
         super(fragment);
@@ -39,13 +43,19 @@ public class GankListAdapter extends BaseAdapter<GankNewsBean> {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new GankListViewHolder(getCreatedView(parent, R.layout.list_item_gank_news));
+        for (GankNewsBean item : mData) {
+            if (mImageSizesMap == null) {
+                mImageSizesMap = new HashMap<>();
+            }
+            mImageSizesMap.put(item.getUrl(), new ImageSize());
+        }
+        return new GankListViewHolder(getCreatedView(parent, R.layout.list_item_gank_news), mImageSizesMap);
     }
 
     public static class GankListViewHolder extends BaseViewHolder<GankNewsBean> {
 
         @BindView(R.id.girl_pic)
-        NetworkImageView girl;
+        ImageView girl;
         @BindView(R.id.title)
         TextView title;
         @BindView(R.id.time)
@@ -57,8 +67,11 @@ public class GankListAdapter extends BaseAdapter<GankNewsBean> {
         @BindView(R.id.article_content_item)
         ViewGroup articleContentItem;
 
-        public GankListViewHolder(View view) {
+        private Map<String, ImageSize> mImageSizeMap;
+
+        public GankListViewHolder(View view, Map<String, ImageSize> map) {
             super(view);
+            mImageSizeMap = map;
         }
 
         @Override
@@ -66,7 +79,7 @@ public class GankListAdapter extends BaseAdapter<GankNewsBean> {
             if (TextUtils.equals(WELFARE, data.getType())) {
                 newsContainer.setVisibility(View.GONE);
                 girl.setVisibility(View.VISIBLE);
-                loadCustomSizeImage(data.getUrl(), girl);
+                loadCustomSizeImage(data.getUrl(), girl, mImageSizeMap);
             } else {
                 girl.setVisibility(View.GONE);
                 newsContainer.setVisibility(View.VISIBLE);

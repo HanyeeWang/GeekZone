@@ -7,13 +7,16 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.NetworkImageView;
 import com.hanyee.androidlib.base.BaseAdapter;
 import com.hanyee.geekzone.R;
 import com.hanyee.geekzone.model.bean.zhihu.SpecialsBean.DataBean;
 import com.hanyee.geekzone.ui.activity.zhihu.SpecialListActivity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -24,6 +27,8 @@ import static com.hanyee.geekzone.util.Constants.ARTICLE.EXTRA_SPECIAL_NAME;
 
 public class SpecialsAdapter extends BaseAdapter<DataBean> {
 
+    protected Map<String, ImageSize> mImageSizesMap;
+
     @Inject
     public SpecialsAdapter(Fragment fragment) {
         super(fragment);
@@ -31,7 +36,13 @@ public class SpecialsAdapter extends BaseAdapter<DataBean> {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SpecialViewHolder(getCreatedView(parent, R.layout.water_fall_list_item));
+        for (DataBean item : mData) {
+            if (mImageSizesMap == null) {
+                mImageSizesMap = new HashMap<>();
+            }
+            mImageSizesMap.put(item.getThumbnail(), new ImageSize());
+        }
+        return new SpecialViewHolder(getCreatedView(parent, R.layout.water_fall_list_item), mImageSizesMap);
     }
 
     public static class SpecialViewHolder extends BaseViewHolder<DataBean> {
@@ -39,14 +50,17 @@ public class SpecialsAdapter extends BaseAdapter<DataBean> {
         @BindView(R.id.holderView)
         ViewGroup holderView;
         @BindView(R.id.avatar)
-        NetworkImageView imageView;
+        ImageView imageView;
         @BindView(R.id.desc)
         TextView desc;
         @BindView(R.id.title)
         TextView title;
 
-        public SpecialViewHolder(View view) {
+        private Map<String, ImageSize> mImageSizeMap;
+
+        public SpecialViewHolder(View view, Map<String, ImageSize> map) {
             super(view);
+            mImageSizeMap = map;
         }
 
         @Override
@@ -58,7 +72,7 @@ public class SpecialsAdapter extends BaseAdapter<DataBean> {
                 desc.setVisibility(View.VISIBLE);
                 desc.setText(data.getDescription());
             }
-            loadCustomSizeImage(data.getThumbnail(), imageView);
+            loadCustomSizeImage(data.getThumbnail(), imageView, mImageSizeMap);
             holderView.setOnClickListener(
                     new View.OnClickListener() {
                         @Override

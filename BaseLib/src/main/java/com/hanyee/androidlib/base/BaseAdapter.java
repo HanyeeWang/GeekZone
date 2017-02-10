@@ -10,19 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.android.volley.toolbox.NetworkImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.ImageViewTarget;
 import com.hanyee.androidlib.R;
 import com.hanyee.androidlib.cache.image.ImageUtils;
 import com.hanyee.androidlib.cache.image.glide.CircleTransform;
-import com.hanyee.androidlib.cache.image.volley.VolleyImageLoader;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 
@@ -37,7 +38,6 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
     protected List<T> mData = new ArrayList<>();
 
     private Object mContext;
-
     private boolean mIsScrollStateFling;
 
     public BaseAdapter(Object context) {
@@ -52,7 +52,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
 
     public void addData(List<T> data) {
         mData.addAll(data);
-        notifyDataSetChanged();
+        notifyItemRangeChanged(mData.size() - data.size(), mData.size());
     }
 
     public void clear() {
@@ -99,6 +99,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
         private View mView;
         private Object mContext;
         private boolean mScrollStateFling;
+        private List<ImageSize> mImageSizes;
 
         public BaseViewHolder(View view) {
             super(view);
@@ -126,7 +127,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
             getRequestManager()
                     .load(url)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .error(R.drawable.cheese_1)
+                    .error(R.drawable.ic_default_image)
                     .fitCenter()
                     .crossFade()
                     .into(view);
@@ -137,15 +138,48 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
                     .load(url)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .transform(new CircleTransform(getApplicationContext()))
-                    .error(R.drawable.cheese_1)
+                    .error(R.drawable.ic_default_image)
                     .crossFade()
                     .into(view);
         }
 
-        protected void loadCustomSizeImage(String url, final NetworkImageView view) {
-            mScrollStateFling = false;
-            view.setImageUrl(mScrollStateFling ? null : url,
-                    VolleyImageLoader.getInstance(getApplicationContext()).getImageLoader());
+        protected void loadCustomSizeImage(String url, ImageView view, Map<String, ImageSize> map) {
+            final ImageSize imageSize;
+            if (map.get(url) == null) {
+                imageSize = new ImageSize();
+                map.put(url, imageSize);
+            } else {
+                imageSize = map.get(url);
+            }
+            getRequestManager()
+                    .load(url)
+                    .asBitmap()
+                    .fitCenter()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .error(R.drawable.ic_default_image)
+                    .skipMemoryCache(true)
+                    .into(new BitmapImageViewTarget(view) {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            if (imageSize.isNull()) {
+                                int viewWidth = view.getWidth();
+                                float scale = resource.getWidth() / (viewWidth * 1.0f);
+                                int viewHeight = (int) (resource.getHeight() / scale);
+                                ViewGroup.LayoutParams vlp = view.getLayoutParams();
+                                vlp.width = viewWidth;
+                                vlp.height = viewHeight;
+                                view.setLayoutParams(vlp);
+                                imageSize.setWidth(viewWidth);
+                                imageSize.setHeight(viewHeight);
+                            } else {
+                                ViewGroup.LayoutParams vlp = view.getLayoutParams();
+                                vlp.width = imageSize.getWidth();
+                                vlp.height = imageSize.getHeight();
+                                view.setLayoutParams(vlp);
+                            }
+                            super.onResourceReady(resource, glideAnimation);
+                        }
+                    });
         }
 
         protected void loadAndCompressImage(String url, ImageView view) {
@@ -169,5 +203,31 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
         }
 
         public abstract void onBindData2View(T data);
+    }
+
+    public static class ImageSize {
+
+        private int width;
+        private int height;
+
+        public int getWidth() {
+            return width;
+        }
+
+        public void setWidth(int width) {
+            this.width = width;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        public void setHeight(int height) {
+            this.height = height;
+        }
+
+        public boolean isNull() {
+            return width == 0 || height == 0;
+        }
     }
 }

@@ -214,7 +214,7 @@ public class ArticleDetailPresenter extends SuperiorPresenter<View> implements P
                 .load(url)
 //                .override(imageView.getWidth(), imageView.getHeight())
                 .fitCenter()
-                .error(R.drawable.cheese_1)
+                .error(R.drawable.ic_default_image)
                 .into(imageView);
     }
 
