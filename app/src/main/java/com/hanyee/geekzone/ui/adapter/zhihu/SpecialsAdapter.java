@@ -27,7 +27,7 @@ import static com.hanyee.geekzone.util.Constants.ARTICLE.EXTRA_SPECIAL_NAME;
 
 public class SpecialsAdapter extends BaseAdapter<DataBean> {
 
-    protected Map<String, ImageSize> mImageSizesMap;
+    private Map<String, ImageSize> mImageSizesMap;
 
     @Inject
     public SpecialsAdapter(Fragment fragment) {

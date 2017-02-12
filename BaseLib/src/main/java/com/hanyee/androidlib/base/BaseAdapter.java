@@ -99,7 +99,6 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
         private View mView;
         private Object mContext;
         private boolean mScrollStateFling;
-        private List<ImageSize> mImageSizes;
 
         public BaseViewHolder(View view) {
             super(view);

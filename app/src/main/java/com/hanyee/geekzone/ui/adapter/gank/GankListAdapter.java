@@ -34,7 +34,7 @@ import static com.hanyee.geekzone.util.Constants.GANK.WELFARE;
 
 public class GankListAdapter extends BaseAdapter<GankNewsBean> {
 
-    protected Map<String, ImageSize> mImageSizesMap;
+    private Map<String, ImageSize> mImageSizesMap;
 
     @Inject
     public GankListAdapter(Fragment fragment) {

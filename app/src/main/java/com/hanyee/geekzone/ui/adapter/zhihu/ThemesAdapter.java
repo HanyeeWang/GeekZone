@@ -26,7 +26,7 @@ import static com.hanyee.geekzone.util.Constants.ARTICLE.EXTRA_THEME_NAME;
 
 public class ThemesAdapter extends BaseAdapter<OthersBean> {
 
-    protected Map<String, ImageSize> mImageSizesMap;
+    private Map<String, ImageSize> mImageSizesMap;
 
     @Inject
     public ThemesAdapter(Fragment fragment) {
