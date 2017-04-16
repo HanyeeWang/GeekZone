@@ -16,16 +16,17 @@
 
 package com.hanyee.geekzone.ui.fragment.zhihu;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.hanyee.androidlib.widgets.recycler.SwipeRefreshLayout;
 import com.hanyee.geekzone.R;
 import com.hanyee.geekzone.base.SuperiorFragment;
 import com.hanyee.geekzone.model.bean.zhihu.RecommendAuthorBean;
 import com.hanyee.geekzone.presenter.ColumnsPresenter;
 import com.hanyee.geekzone.presenter.contract.ColumnsContract;
 import com.hanyee.geekzone.ui.adapter.zhihu.ColumnsAdapter;
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class ColumnsFragment extends SuperiorFragment<ColumnsPresenter> implemen
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     @BindView(R.id.refresh)
-    TwinklingRefreshLayout mRefresh;
+    SwipeRefreshLayout mRefresh;
 
     @Inject
     ColumnsAdapter mColumnsAdapter;
@@ -59,15 +60,19 @@ public class ColumnsFragment extends SuperiorFragment<ColumnsPresenter> implemen
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mColumnsAdapter);
-        mRefresh.setOnRefreshListener(new TwinklingRefreshLayout.OnRefreshListener() {
+        mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+            public void onRefresh(int index) {
+                Fragment parent = getParentFragment();
+                if (parent instanceof ZhiHuFragment) {
+                    ((ZhiHuFragment)parent).startWaveAnimation();
+                }
                 mIsFirstLoad = false;
                 mPresenter.loadColumnAuthorInfo();
             }
 
             @Override
-            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+            public void onLoad(int index) {
                 mIsFirstLoad = false;
                 mPresenter.loadMoreColumnAuthorInfo();
             }
@@ -78,21 +83,20 @@ public class ColumnsFragment extends SuperiorFragment<ColumnsPresenter> implemen
     @Override
     public void showColumnAuthorInfo(List<RecommendAuthorBean> authors) {
         if (mIsFirstLoad) finishLoading();
-        mRefresh.finishRefreshing();
+        mRefresh.setRefreshing(false);
         mColumnsAdapter.setData(authors);
     }
 
     @Override
     public void showMoreColumnAuthorInfo(List<RecommendAuthorBean> authors) {
-        mRefresh.finishLoadmore();
+        mRefresh.setRefreshing(false);
         mColumnsAdapter.addData(authors);
     }
 
     @Override
     public void showError(String msg, boolean showErrorView) {
         super.showError(msg, showErrorView);
-        mRefresh.finishRefreshing();
-        mRefresh.finishLoadmore();
+        mRefresh.setRefreshing(false);
     }
 
     @Override

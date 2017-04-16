@@ -42,6 +42,8 @@ public class DailyNewsAdapter extends BaseAdapter<StoriesBean> {
     private int mHeaderCount = 1;//头部View个数
     private int mBottomCount = 0;//底部View个数
 
+    private ConvenientBanner mBanner;
+
     @Inject
     public DailyNewsAdapter(Fragment fragment) {
         super(fragment);
@@ -90,11 +92,25 @@ public class DailyNewsAdapter extends BaseAdapter<StoriesBean> {
         if (viewType == ITEM_TYPE_CONTENT) {
             return new ContentViewHolder(getCreatedView(parent, R.layout.list_item_common));
         } else if (viewType == ITEM_TYPE_HEADER) {
-            return new HeaderViewHolder(getCreatedView(parent, R.layout.header_item));
+            View header = getCreatedView(parent, R.layout.header_item);
+            mBanner = (ConvenientBanner) header.findViewById(R.id.convenientBanner);
+            return new HeaderViewHolder(header);
         } else if (viewType == ITEM_TYPE_BOTTOM) {
             return new BottomViewHolder(getCreatedView(parent, R.layout.footer_item));
         }
         return null;
+    }
+
+    public void pauseBanner() {
+        if (mBanner != null) {
+            mBanner.stopTurning();
+        }
+    }
+
+    public void resumeBanner() {
+        if (mBanner != null) {
+            mBanner.startTurning(5000);
+        }
     }
 
     @Override

@@ -58,8 +58,8 @@ public class AboutFragment extends SuperiorFragment<AboutPresenter> {
                 }
             }
         });
-        Glide.with(GeekZoneApplication.getInstance()).load(R.drawable.avatar)
-                .transform(new CircleTransform(GeekZoneApplication.getInstance()))
+        Glide.with(mContext).load(R.drawable.avatar)
+                .transform(new CircleTransform(mContext))
                 .into(mAvatar);
         finishLoading();
     }

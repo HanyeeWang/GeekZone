@@ -16,16 +16,18 @@
 
 package com.hanyee.geekzone.ui.fragment.zhihu;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
+import com.hanyee.androidlib.widgets.recycler.SwipeRefreshLayout;
+import com.hanyee.androidlib.widgets.recycler.SwipeRefreshLayoutDirection;
 import com.hanyee.geekzone.R;
 import com.hanyee.geekzone.base.SuperiorFragment;
 import com.hanyee.geekzone.model.bean.zhihu.SpecialsBean.DataBean;
 import com.hanyee.geekzone.presenter.SpecialsPresenter;
 import com.hanyee.geekzone.presenter.contract.SpecialsContract;
 import com.hanyee.geekzone.ui.adapter.zhihu.SpecialsAdapter;
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class SpecialsFragment extends SuperiorFragment<SpecialsPresenter> implem
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     @BindView(R.id.refresh)
-    TwinklingRefreshLayout mRefresh;
+    SwipeRefreshLayout mRefresh;
 
     @Inject
     SpecialsAdapter mRecycleAdapter;
@@ -67,12 +69,20 @@ public class SpecialsFragment extends SuperiorFragment<SpecialsPresenter> implem
             }
         });
         mRecyclerView.setAdapter(mRecycleAdapter);
-        mRefresh.setEnableLoadmore(false);
-        mRefresh.setOnRefreshListener(new TwinklingRefreshLayout.OnRefreshListener() {
+        mRefresh.setDirection(SwipeRefreshLayoutDirection.TOP);
+        mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+            public void onRefresh(int index) {
+                Fragment parent = getParentFragment();
+                if (parent instanceof ZhiHuFragment) {
+                    ((ZhiHuFragment)parent).startWaveAnimation();
+                }
                 mIsFirstLoad = false;
                 mPresenter.loadAllSpecials();
+            }
+
+            @Override
+            public void onLoad(int index) {
             }
         });
         mPresenter.loadAllSpecials();
@@ -81,14 +91,14 @@ public class SpecialsFragment extends SuperiorFragment<SpecialsPresenter> implem
     @Override
     public void showAllSpecials(List<DataBean> response) {
         if (mIsFirstLoad) finishLoading();
-        mRefresh.finishRefreshing();
+        mRefresh.setRefreshing(false);
         mRecycleAdapter.setData(response);
     }
 
     @Override
     public void showError(String msg, boolean onlyToast) {
         super.showError(msg, onlyToast);
-        mRefresh.finishRefreshing();
+        mRefresh.setRefreshing(false);
     }
 
     @Override

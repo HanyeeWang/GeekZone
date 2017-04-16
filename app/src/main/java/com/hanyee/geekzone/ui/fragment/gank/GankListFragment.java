@@ -16,11 +16,13 @@
 
 package com.hanyee.geekzone.ui.fragment.gank;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 
+import com.hanyee.androidlib.widgets.recycler.SwipeRefreshLayout;
 import com.hanyee.geekzone.R;
 import com.hanyee.geekzone.base.SuperiorFragment;
 import com.hanyee.geekzone.model.bean.gank.GankNewsBean;
@@ -28,7 +30,6 @@ import com.hanyee.geekzone.presenter.GankListPresenter;
 import com.hanyee.geekzone.presenter.contract.GankListContract;
 import com.hanyee.geekzone.ui.adapter.gank.GankListAdapter;
 import com.hanyee.geekzone.util.Constants;
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class GankListFragment extends SuperiorFragment<GankListPresenter> implem
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     @BindView(R.id.refresh)
-    TwinklingRefreshLayout mRefresh;
+    SwipeRefreshLayout mRefresh;
 
     @Inject
     GankListAdapter mRecycleAdapter;
@@ -83,7 +84,7 @@ public class GankListFragment extends SuperiorFragment<GankListPresenter> implem
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (layoutManager instanceof  StaggeredGridLayoutManager) {
+                if (layoutManager instanceof StaggeredGridLayoutManager) {
                     ((StaggeredGridLayoutManager) layoutManager).invalidateSpanAssignments();
                 }
                 switch (newState) {
@@ -100,15 +101,19 @@ public class GankListFragment extends SuperiorFragment<GankListPresenter> implem
             }
         });
         mRecyclerView.setAdapter(mRecycleAdapter);
-        mRefresh.setOnRefreshListener(new TwinklingRefreshLayout.OnRefreshListener() {
+        mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+            public void onRefresh(int index) {
+                Fragment parent = getParentFragment();
+                if (parent instanceof GankFragment) {
+                    ((GankFragment) parent).startWaveAnimation();
+                }
                 mIsFirstLoad = false;
                 mPresenter.loadGankNewsByCategory(mCategory);
             }
 
             @Override
-            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+            public void onLoad(int index) {
                 mIsFirstLoad = false;
                 mPresenter.loadMoreGankNewsByCategory(mCategory);
             }
@@ -119,21 +124,20 @@ public class GankListFragment extends SuperiorFragment<GankListPresenter> implem
     @Override
     public void showGankNews(List<GankNewsBean> list) {
         if (mIsFirstLoad) finishLoading();
-        mRefresh.finishRefreshing();
+        mRefresh.setRefreshing(false);
         mRecycleAdapter.setData(list);
     }
 
     @Override
     public void showMoreGankNews(List<GankNewsBean> list) {
-        mRefresh.finishLoadmore();
+        mRefresh.setRefreshing(false);
         mRecycleAdapter.addData(list);
     }
 
     @Override
     public void showError(String msg, boolean showErrorView) {
         super.showError(msg, showErrorView);
-        mRefresh.finishRefreshing();
-        mRefresh.finishLoadmore();
+        mRefresh.setRefreshing(false);
     }
 
     @Override

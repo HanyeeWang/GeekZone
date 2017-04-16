@@ -1,6 +1,5 @@
-include ':app',':BaseLib',':Volley',':Banner',':Refresh',':Diagonallayout'
+include ':app',':BaseLib',':Volley',':Banner',':Diagonallayout'
 project(':BaseLib').projectDir = new File(rootProject.projectDir, '/BaseLib')
 project(':Volley').projectDir = new File(rootProject.projectDir, '/ThirdLibs/Volley')
 project(':Banner').projectDir = new File(rootProject.projectDir, '/ThirdLibs/Banner')
-project(':Refresh').projectDir = new File(rootProject.projectDir, '/ThirdLibs/Refresh')
 project(':Diagonallayout').projectDir = new File(rootProject.projectDir, '/ThirdLibs/Diagonallayout')

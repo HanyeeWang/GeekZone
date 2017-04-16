@@ -13,19 +13,18 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+<com.hanyee.androidlib.widgets.recycler.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:SwipeRefreshLayout="http://schemas.android.com/apk/res-auto"
     android:id="@+id/refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    app:tr_head_height="90dp"
-    app:tr_wave_height="160dp">
+    android:fitsSystemWindows="true"
+    SwipeRefreshLayout:direction="both">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+</com.hanyee.androidlib.widgets.recycler.SwipeRefreshLayout>

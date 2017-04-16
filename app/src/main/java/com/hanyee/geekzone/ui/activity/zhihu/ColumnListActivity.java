@@ -155,12 +155,12 @@ public class ColumnListActivity extends SuperiorActivity<ColumnListPresenter> im
 
         AuthorBean.AvatarBean avatar = author.getAvatar();
         mAvatar = avatar.getTemplate().replace("{id}", avatar.getId()).replace("{size}", "m");
-        Glide.with(getApplicationContext()).load(mAvatar)
+        Glide.with(this).load(mAvatar)
                 .override(mAuthorAvatar.getWidth(), mAuthorAvatar.getHeight())
-                .transform(new CircleTransform(getApplicationContext())).into(mAuthorAvatar);
-        Glide.with(getApplicationContext()).load(mAvatar)
+                .transform(new CircleTransform(this)).into(mAuthorAvatar);
+        Glide.with(this).load(mAvatar)
                 .override(mHeadLayout.getWidth(), mHeadLayout.getHeight())
-                .bitmapTransform(new BlurTransformation(getApplicationContext(), 8, 5))
+                .bitmapTransform(new BlurTransformation(this, 8, 5))
                 .into(new SimpleTarget<GlideDrawable>() {
                     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                     @Override

@@ -10,6 +10,7 @@ import com.hanyee.androidlib.base.BaseActivity;
 import com.hanyee.androidlib.base.BaseFragment;
 import com.hanyee.geekzone.R;
 import com.hanyee.geekzone.ui.adapter.main.Adapter;
+import com.hanyee.geekzone.widget.WaveBezier;
 
 import butterknife.BindView;
 
@@ -31,6 +32,8 @@ public class NewsFragment extends BaseFragment {
     Toolbar mToolbar;
     @BindView(R.id.tabs)
     TabLayout mTabs;
+    @BindView(R.id.wave)
+    WaveBezier mWave;
     @BindView(R.id.appbar)
     AppBarLayout mAppbar;
     @BindView(R.id.viewpager)
@@ -62,5 +65,13 @@ public class NewsFragment extends BaseFragment {
         adapter.addFragment(new NewsListFragment().category(APPLE), getString(R.string.news_apple));
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);
+    }
+
+    public void startWaveAnimation() {
+        mWave.startAnimation();
+    }
+
+    public void finishWaveAnimation() {
+        mWave.finishAnimation();
     }
 }

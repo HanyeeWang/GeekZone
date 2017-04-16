@@ -5,11 +5,14 @@ package com.hanyee.geekzone.util;
  */
 public interface Constants {
 
+    int WAVE_FLOW_ANIMATION_TIME         = 1000;
+    int WAVE_RISE_ANIMATION_TIME         = 3000;
+
     interface NavigationItem {
         int TYPE_ZHIHU                   = 101;
         int TYPE_WECHAT                  = 102;
         int TYPE_GANK                    = 103;
-        int TYPE_NEWS = 104;
+        int TYPE_NEWS                    = 104;
         int TYPE_SETTING                 = 105;
         int TYPE_LIKE                    = 106;
         int TYPE_ABOUT                   = 107;

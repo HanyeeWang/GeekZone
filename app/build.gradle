@@ -48,7 +48,6 @@ android {
 dependencies {
     compile project(':BaseLib')
     compile project(':Banner')
-    compile project(':Refresh')
     compile project(':Diagonallayout')
 
     compile rootProject.ext.dependencies["dagger"]

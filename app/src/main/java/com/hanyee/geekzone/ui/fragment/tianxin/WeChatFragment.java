@@ -21,14 +21,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.hanyee.androidlib.base.BaseActivity;
+import com.hanyee.androidlib.widgets.recycler.SwipeRefreshLayout;
+import com.hanyee.androidlib.widgets.recycler.SwipeRefreshLayoutDirection;
 import com.hanyee.geekzone.R;
 import com.hanyee.geekzone.base.SuperiorFragment;
 import com.hanyee.geekzone.model.bean.tianxin.TianXinNewsBean;
 import com.hanyee.geekzone.presenter.WeChatPresenter;
 import com.hanyee.geekzone.presenter.contract.WeChatContract;
 import com.hanyee.geekzone.ui.adapter.tianxin.TianXinNewsAdapter;
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
-import com.lcodecore.tkrefreshlayout.header.bezierlayout.BezierLayout;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class WeChatFragment extends SuperiorFragment<WeChatPresenter> implements
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     @BindView(R.id.refresh)
-    TwinklingRefreshLayout mRefresh;
+    SwipeRefreshLayout mRefresh;
 
     @Inject
     TianXinNewsAdapter mTianXinNewsAdapter;
@@ -71,16 +71,16 @@ public class WeChatFragment extends SuperiorFragment<WeChatPresenter> implements
         mTianXinNewsAdapter.setTianXinType(WECHAT);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mTianXinNewsAdapter);
-        mRefresh.setHeaderView(new BezierLayout(mContext));
-        mRefresh.setOnRefreshListener(new TwinklingRefreshLayout.OnRefreshListener() {
+        mRefresh.setDirection(SwipeRefreshLayoutDirection.BOTH);
+        mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+            public void onRefresh(int index) {
                 mIsFirstLoad = false;
                 mPresenter.loadWeChatNewsList();
             }
 
             @Override
-            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+            public void onLoad(int index) {
                 mIsFirstLoad = false;
                 mPresenter.loadMoreWeChatNews();
             }
@@ -91,21 +91,20 @@ public class WeChatFragment extends SuperiorFragment<WeChatPresenter> implements
     @Override
     public void showWeChatNewsList(List<TianXinNewsBean> list) {
         if (mIsFirstLoad) finishLoading();
-        mRefresh.finishRefreshing();
+        mRefresh.setRefreshing(false);
         mTianXinNewsAdapter.setData(list);
     }
 
     @Override
     public void showMoreWeChatNews(List<TianXinNewsBean> list) {
-        mRefresh.finishLoadmore();
+        mRefresh.setRefreshing(false);
         mTianXinNewsAdapter.addData(list);
     }
 
     @Override
     public void showError(String msg, boolean showErrorView) {
         super.showError(msg, showErrorView);
-        mRefresh.finishRefreshing();
-        mRefresh.finishLoadmore();
+        mRefresh.setRefreshing(false);
     }
 
     @Override

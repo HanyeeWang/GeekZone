@@ -333,7 +333,8 @@ public class ImageUtils {
             final float totalPixels = width * height;
             final float totalReqPixelsCap = reqWidth * reqHeight * 2;
             while (totalPixels / (inSampleSize * inSampleSize) > totalReqPixelsCap) {
-                inSampleSize++;
+//                inSampleSize++;
+                inSampleSize *= 2;
             }
         }
         return inSampleSize;
